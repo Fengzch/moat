@@ -6,14 +6,38 @@
   "fork_default_branch": "release-1.19",
   "priority": 0.0,
   "ext_type": "unknown",
-  "stage": "unclaimed",
+  "stage": "screened",
   "adopted_at": "2026-11-16T06:46:17Z",
-  "updated_at": "2026-11-16T06:47:25Z",
+  "updated_at": "2026-11-16T06:59:20Z",
   "head_sha": null,
   "depends_on": [],
   "porting": null,
   "waivers": {},
-  "platforms": {},
+  "platforms": {
+    "linux-gfx936": {
+      "blocked": false,
+      "blocked_reason": null,
+      "validated_sha": null,
+      "failed_sha": null,
+      "started_at": null,
+      "completed_at": null,
+      "updated_at": "2026-11-16T06:59:20Z",
+      "stats": {
+        "tokens_total": 0,
+        "tokens_approx": true,
+        "wall_seconds": {
+          "thinking": 0,
+          "compile": 0,
+          "test": 0,
+          "misc": 0
+        },
+        "session_count": 0,
+        "first_session_at": null,
+        "last_session_at": null
+      },
+      "last_agent": "intake"
+    }
+  },
   "fork_branch": "release/1.19.0.amd0",
   "fork_branch_ruling": {
     "branch": "release/1.19.0.amd0",
@@ -34,5 +58,22 @@
     "by": "Fengzch",
     "at": "2026-11-16T06:47:25Z",
     "reason": "Maintainer-selected personal fork"
+  },
+  "license_spdx": "Apache-2.0",
+  "license_spdx_history": [
+    {
+      "from": null,
+      "to": "Apache-2.0",
+      "evidence": "https://github.com/NVIDIA/warp/blob/release-1.19/LICENSE.md",
+      "at": "2026-11-16T06:57:02Z"
+    }
+  ],
+  "intake": {
+    "verdict": "fork",
+    "reason": null,
+    "duplicate_effort": "AMD-Ecosystem/warp (authoritative HIP/ROCm fork; release/1.13.0 and active v1.18.0 update PR #21)",
+    "viable": true,
+    "summary": "Warp 1.19 has a plausible ROCm release path, but build on AMD-Ecosystem's authoritative HIP fork and resolve bundled NVIDIA-licensed materials first",
+    "at": "2026-11-16T06:58:15Z"
   }
 }
