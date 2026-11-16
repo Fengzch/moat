@@ -1,17 +1,38 @@
 {
-  "schema_version": 3,
+  "schema_version": 4,
   "name": "warp-1.19",
   "upstream_url": "https://github.com/NVIDIA/warp.git",
-  "fork_url": null,
+  "fork_url": "https://github.com/Fengzch/warp",
   "fork_default_branch": "release-1.19",
   "priority": 0.0,
   "ext_type": "unknown",
   "stage": "unclaimed",
   "adopted_at": "2026-11-16T06:46:17Z",
-  "updated_at": "2026-11-16T06:46:17Z",
+  "updated_at": "2026-11-16T06:47:25Z",
   "head_sha": null,
   "depends_on": [],
   "porting": null,
   "waivers": {},
-  "platforms": {}
+  "platforms": {},
+  "fork_branch": "release/1.19.0.amd0",
+  "fork_branch_ruling": {
+    "branch": "release/1.19.0.amd0",
+    "previous": null,
+    "by": "Fengzch",
+    "at": "2026-11-16T06:47:24Z",
+    "reason": "Maintainer-confirmed Warp 1.19.0 release line"
+  },
+  "delivery": {
+    "mode": "fork-release",
+    "by": "Fengzch",
+    "at": "2026-11-16T06:47:24Z",
+    "reason": "NVIDIA Warp AMD port is delivered as a personal-fork release line"
+  },
+  "fork_url_ruling": {
+    "url": "https://github.com/Fengzch/warp",
+    "previous": null,
+    "by": "Fengzch",
+    "at": "2026-11-16T06:47:25Z",
+    "reason": "Maintainer-selected personal fork"
+  }
 }
