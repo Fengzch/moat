@@ -8,12 +8,12 @@
   "ext_type": "unknown",
   "stage": "porting",
   "adopted_at": "2026-11-16T06:46:17Z",
-  "updated_at": "2026-11-16T07:07:57Z",
+  "updated_at": "2026-11-16T07:41:58Z",
   "head_sha": null,
   "depends_on": [],
   "porting": {
     "arch": "linux-gfx936",
-    "since": "2026-11-16T07:07:57Z"
+    "since": "2026-11-16T07:41:58Z"
   },
   "waivers": {},
   "platforms": {
@@ -24,7 +24,7 @@
       "failed_sha": null,
       "started_at": "2026-11-16T07:07:57Z",
       "completed_at": null,
-      "updated_at": "2026-11-16T07:07:57Z",
+      "updated_at": "2026-11-16T07:41:58Z",
       "stats": {
         "tokens_total": 0,
         "tokens_approx": true,
@@ -81,7 +81,7 @@
   },
   "porting_released": {
     "arch": "linux-gfx936",
-    "since": "2026-11-16T07:00:50Z",
-    "at": "2026-11-16T07:05:10Z"
+    "since": "2026-11-16T07:07:57Z",
+    "at": "2026-11-16T07:21:18Z"
   }
 }
