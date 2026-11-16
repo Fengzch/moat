@@ -1,0 +1,194 @@
+{
+  "generated_by": "utils/surface.py",
+  "source_sha": "dca5011a3fd9",
+  "note": "A FLOOR, not the whole truth. The planner may add entries the scan cannot see (driver API, runtime PTX, non-C++ builds) and may remove a generated one only with a reason recorded in removed_from_floor.",
+  "cuda": {
+    "files": [
+      "warp/examples/cpp/00_cubin_launch/main.cu",
+      "warp/examples/cpp/01_source_include/main.cu",
+      "warp/examples/cpp/02_apic_visualization/main.cu",
+      "warp/native/apic.cpp",
+      "warp/native/apic.cu",
+      "warp/native/builtin.h",
+      "warp/native/bvh.cu",
+      "warp/native/bvh.h",
+      "warp/native/bvh_cubql.cu",
+      "warp/native/cuBQL/math/common.h",
+      "warp/native/cuBQL/math/constants.h",
+      "warp/native/cuBQL/traversal/aggregateApproximate.h",
+      "warp/native/cuda_crt.h",
+      "warp/native/cuda_util.cpp",
+      "warp/native/cuda_util.h",
+      "warp/native/deterministic.cu",
+      "warp/native/hashgrid.cu",
+      "warp/native/mesh.cu",
+      "warp/native/mesh.h",
+      "warp/native/nanovdb/NanoVDB.h",
+      "warp/native/nanovdb/PNanoVDB.h",
+      "warp/native/nanovdb/math/Math.h",
+      "warp/native/nanovdb/util/Util.h",
+      "warp/native/reduce.cu",
+      "warp/native/runlength_encode.cu",
+      "warp/native/scan.cu",
+      "warp/native/sort.cu",
+      "warp/native/sparse.cu",
+      "warp/native/texture.h",
+      "warp/native/tile.h",
+      "warp/native/tile_bvh.h",
+      "warp/native/tile_cholesky.h",
+      "warp/native/tile_mesh.h",
+      "warp/native/tile_radix_sort.h",
+      "warp/native/tile_reduce.h",
+      "warp/native/tile_scan.h",
+      "warp/native/tile_solve.h",
+      "warp/native/volume.cu",
+      "warp/native/volume_builder.cu",
+      "warp/native/warp.cu",
+      "warp/native/warp.h"
+    ],
+    "markers": {
+      "device_code": 508,
+      "warp_intrinsic": 49,
+      "texture": 2,
+      "runtime_ptx": 47,
+      "kernel": 94,
+      "launch": 42,
+      "driver_api": 121
+    },
+    "libraries": {
+      "cub": 85,
+      "cublas": 35,
+      "thrust": 13,
+      "cufft": 26,
+      "cusolver": 39
+    }
+  },
+  "components": [
+    {
+      "id": "example:00_cubin_launch",
+      "kind": "example",
+      "where": "warp/examples/cpp/00_cubin_launch/CMakeLists.txt"
+    },
+    {
+      "id": "example:01_source_include",
+      "kind": "example",
+      "where": "warp/examples/cpp/01_source_include/CMakeLists.txt"
+    },
+    {
+      "id": "example:02_apic_visualization",
+      "kind": "example",
+      "where": "warp/examples/cpp/02_apic_visualization/CMakeLists.txt"
+    },
+    {
+      "id": "example:03_apic_visualization_cpu",
+      "kind": "example",
+      "where": "warp/examples/cpp/03_apic_visualization_cpu/CMakeLists.txt"
+    },
+    {
+      "id": "executable:windows_import_library_smoke",
+      "kind": "executable",
+      "where": "tools/ci/windows_import_library_smoke/CMakeLists.txt"
+    },
+    {
+      "id": "library:cuBQL_${device}_${T}${D}",
+      "kind": "library",
+      "where": "warp/native/cuBQL/CMakeLists.txt"
+    },
+    {
+      "id": "library:cuBQL_${device}_${T}${D}_static",
+      "kind": "library",
+      "where": "warp/native/cuBQL/CMakeLists.txt"
+    },
+    {
+      "id": "library:glad",
+      "kind": "library",
+      "where": "warp/examples/cpp/02_apic_visualization/CMakeLists.txt"
+    },
+    {
+      "id": "library:warp",
+      "kind": "library",
+      "where": "CMakeLists.txt"
+    },
+    {
+      "id": "library:warp-clang",
+      "kind": "library",
+      "where": "CMakeLists.txt"
+    },
+    {
+      "id": "option:WARP_BUILD_CLANG",
+      "kind": "option",
+      "where": "CMakeLists.txt",
+      "default": "ON",
+      "doc": "Build warp-clang"
+    },
+    {
+      "id": "option:WARP_ENABLE_CUDA",
+      "kind": "option",
+      "where": "CMakeLists.txt",
+      "default": "unset",
+      "doc": "Build Warp with CUDA support"
+    },
+    {
+      "id": "option:WARP_FAST_MATH",
+      "kind": "option",
+      "where": "CMakeLists.txt",
+      "default": "OFF",
+      "doc": "Enable fast math compiler options"
+    },
+    {
+      "id": "option:WARP_USE_DYNAMIC_CUDA",
+      "kind": "option",
+      "where": "CMakeLists.txt",
+      "default": "OFF",
+      "doc": "Link CUDA runtime and compiler libraries dynamically"
+    },
+    {
+      "id": "option:WARP_USE_LIBMATHDX",
+      "kind": "option",
+      "where": "CMakeLists.txt",
+      "default": "ON",
+      "doc": "Build Warp with NVIDIA libmathdx support"
+    },
+    {
+      "id": "option:WARP_VERIFY_FP",
+      "kind": "option",
+      "where": "CMakeLists.txt",
+      "default": "OFF",
+      "doc": "Enable floating point verification"
+    },
+    {
+      "id": "test:apic_visualization_cpu_smoke",
+      "kind": "test",
+      "where": "warp/examples/cpp/03_apic_visualization_cpu/CMakeLists.txt"
+    },
+    {
+      "id": "test:apic_visualization_smoke",
+      "kind": "test",
+      "where": "warp/examples/cpp/02_apic_visualization/CMakeLists.txt"
+    },
+    {
+      "id": "test:cubin_launch_test",
+      "kind": "test",
+      "where": "warp/examples/cpp/00_cubin_launch/CMakeLists.txt"
+    },
+    {
+      "id": "test:source_include_test",
+      "kind": "test",
+      "where": "warp/examples/cpp/01_source_include/CMakeLists.txt"
+    },
+    {
+      "id": "test:test_package",
+      "kind": "test",
+      "where": "tools/llvm/test_package/CMakeLists.txt"
+    },
+    {
+      "id": "test:windows_import_library_smoke",
+      "kind": "test",
+      "where": "tools/ci/windows_import_library_smoke/CMakeLists.txt"
+    }
+  ],
+  "covered": [],
+  "scoped_out": [],
+  "owed": [],
+  "removed_from_floor": []
+}

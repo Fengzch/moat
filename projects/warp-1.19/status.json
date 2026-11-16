@@ -6,15 +6,12 @@
   "fork_default_branch": "release-1.19",
   "priority": 0.0,
   "ext_type": "unknown",
-  "stage": "planning",
+  "stage": "planned",
   "adopted_at": "2026-11-16T06:46:17Z",
-  "updated_at": "2026-11-16T07:00:50Z",
+  "updated_at": "2026-11-16T07:05:10Z",
   "head_sha": null,
   "depends_on": [],
-  "porting": {
-    "arch": "linux-gfx936",
-    "since": "2026-11-16T07:00:50Z"
-  },
+  "porting": null,
   "waivers": {},
   "platforms": {
     "linux-gfx936": {
@@ -24,7 +21,7 @@
       "failed_sha": null,
       "started_at": null,
       "completed_at": null,
-      "updated_at": "2026-11-16T07:00:50Z",
+      "updated_at": "2026-11-16T07:05:10Z",
       "stats": {
         "tokens_total": 0,
         "tokens_approx": true,
@@ -78,5 +75,10 @@
     "viable": true,
     "summary": "Warp 1.19 has a plausible ROCm release path, but build on AMD-Ecosystem's authoritative HIP fork and resolve bundled NVIDIA-licensed materials first",
     "at": "2026-11-16T06:58:15Z"
+  },
+  "porting_released": {
+    "arch": "linux-gfx936",
+    "since": "2026-11-16T07:00:50Z",
+    "at": "2026-11-16T07:05:10Z"
   }
 }
