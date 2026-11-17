@@ -1,5 +1,14 @@
 # warp-1.19 notes
 
+## Surface follow-up 2026-11-17 - Hygon DTK Linux gfx936
+
+- Maintainer scope ruling: Windows and NVIDIA MathDx are excluded from the Hygon DTK Linux gfx936 delivery. CUDA-only examples, linkage modes, and their tests belong to the maintainer's manual CUDA regression check. No wheel or release was published.
+- Surface accounting now covers `library:warp`, the enabled HIP GPU backend, `WARP_FAST_MATH`, and `WARP_VERIFY_FP`. Standalone cuBQL instantiation targets are `EXCLUDE_FROM_ALL` and are not connected to Warp's top-level release build; the embedded cuBQL implementation is part of the covered `warp.so` build.
+- The first `--verify-fp --fast-math` DTK build exposed a real HIP compile failure in `warp/native/builtin.h`: floating-point verification called the host-only CRT `printf` from a shared host/device helper. Commit `21af4f05cf1d26ce0e0b5344fe4dd33d4407caaa` declares the HIP device overload while leaving CUDA and host CRT selection unchanged.
+- Passing option build: `python3 build_lib.py --hip --rocm-path /opt/dtk --hip-arch gfx936 --no-use-libmathdx --no-standalone --verify-fp --fast-math --no-verbose -j 2` completed with DTK 26.04 in 500737 ms. Runtime ABI queries returned `wp_is_verify_fp_enabled() == 1` and `wp_is_fast_math_enabled() == 1`; `python3 -m warp.tests -s autodetect -p test_graph.py -k test_graph_single_kernel_cuda_0 --serial-fallback` passed 1/1 on BW1000 gfx936.
+- Still owed: `warp-clang`, `WARP_BUILD_CLANG`, the CPU APIC visualization example and smoke test, and LLVM SDK `test_package`. They require Warp's matching LLVM distribution; the current release build uses `--no-standalone`, and DTK Clang 17 is not an established ABI substitute for Warp's LLVM 22 dependency.
+- `cuda-manual-pending: CUDA compile regression is owned by the person accepting this Hygon DTK deliverable.`
+
 ## Validation 2026-11-17 - linux-gfx936 completed
 
 - Validated commit: `fb112bfa98190aa5249d453e4dc1d9ffefb444f0`; local HEAD and `origin/release/1.19.0.amd0` matched, and the tracked source tree was clean.
