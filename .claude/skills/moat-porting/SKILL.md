@@ -114,6 +114,11 @@ exists. (SCAMP)
 
 ## The CUDA no-regression compile on the fleet (extends `validation.md`)
 
+- Ownership follows the validation profile's `cuda_compile` setting in
+  `config/arches.toml`. The default `amd-rocm` profile assigns it to the agent. The
+  `hygon-dtk` profile assigns it to a person: validators record
+  `cuda-manual-pending` and continue without treating the check as passed or as a
+  platform blocker. Exact human-supplied evidence may replace that pending entry.
 - Run it on a fleet host that has nvcc. On a GPU-less Linux host the dedicated env is
   `/opt/conda/envs/cuda-12.8/bin/nvcc`, created with the `conda create` line in
   `cuda-to-rocm`'s `validation.md`.

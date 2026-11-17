@@ -29,6 +29,13 @@ waivable = ["windows", "wave64"]
 amd-rocm = ["wave64", "wave32", "windows"]
 hygon-dtk = ["wave64"]
 
+# Who owns the compile-only CUDA no-regression check for each profile. `agent`
+# makes it part of the validator run; `manual` leaves it to the person accepting
+# the deliverable and must be recorded as pending rather than claimed as passed.
+[cuda_compile]
+amd-rocm = "agent"
+hygon-dtk = "manual"
+
 # Two gates may be waived. Every waiver needs MAINTAINER approval recorded in
 # status.json; agents may only suggest one, and an unapproved suggestion BLOCKS rather
 # than clears. Neither is self-certifiable.

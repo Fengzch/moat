@@ -108,6 +108,8 @@ Find the real build procedure in the project documentation and build files. Use 
 
 Find the project's automated tests in its documentation and build files. Focus on GPU tests without regressing non-GPU tests. A real GPU pass on the selected HIP toolchain is required for completion. Record the GPU model and architecture, vendor/toolkit/runtime/compiler versions, exact build and test commands, and results in `notes.md`; do not record a generic "ROCm pass" when validation used Hygon DTK. Evidence from AMD ROCm does not satisfy a Hygon DTK validation request, or vice versa, unless a person explicitly scopes that portability claim. Do not add fork GitHub Actions smoke tests: CPU-only CI cannot observe GPU correctness and inherited fork Actions should remain disabled. A local CPU-only container compile check is evidence, never the GPU gate.
 
+The CUDA compile-only no-regression check follows the selected validation profile's `cuda_compile` policy in `config/arches.toml`. `amd-rocm` assigns it to the validator agent. `hygon-dtk` assigns it to a person for now: agents record `cuda-manual-pending` in project notes and do not block Hygon GPU validation or claim that CUDA passed.
+
 # Commit messages and upstream-visible text
 
 Commit titles start with `[ROCm]` and are at most 72 characters. Commit bodies explain the rationale, disclose assistance from an AI coding agent, and include a Test Plan with literal commands in fenced blocks. Do not add a `Co-Authored-By` trailer for an agent.

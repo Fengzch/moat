@@ -61,11 +61,18 @@ def _load_arches():
     unknown = {gate for gates in profiles.values() for gate in gates} - set(required)
     if unknown:
         raise ValueError(f"config/arches.toml: validation profiles name unknown gates: {sorted(unknown)}")
-    return (waves, required, profiles, set(cfg["gates"].get("waivable", [])),
+    cuda_compile = cfg.get("cuda_compile") or {profile: "agent" for profile in profiles}
+    if set(cuda_compile) != set(profiles):
+        raise ValueError("config/arches.toml: cuda_compile must name every validation profile")
+    invalid = {owner for owner in cuda_compile.values() if owner not in {"agent", "manual"}}
+    if invalid:
+        raise ValueError(f"config/arches.toml: invalid cuda_compile values: {sorted(invalid)}")
+    return (waves, required, profiles, cuda_compile,
+            set(cfg["gates"].get("waivable", [])),
             set((cfg.get("offline") or {}).get("platforms", [])))
 
 
-WAVE_BY_FAMILY, REQUIRED_GATES, VALIDATION_PROFILES, WAIVABLE_GATES, OFFLINE_PLATFORMS = _load_arches()
+WAVE_BY_FAMILY, REQUIRED_GATES, VALIDATION_PROFILES, CUDA_COMPILE, WAIVABLE_GATES, OFFLINE_PLATFORMS = _load_arches()
 DEFAULT_VALIDATION_PROFILE = "amd-rocm"
 
 # A platform is an architecture on an operating system. Any host that reports a GPU
@@ -133,6 +140,14 @@ def required_gates(obj):
     if profile not in VALIDATION_PROFILES:
         raise ValueError(f"unknown validation profile {profile!r}")
     return tuple(VALIDATION_PROFILES[profile])
+
+
+def cuda_compile_responsibility(obj):
+    """Who runs the CUDA no-regression compile for this validation profile."""
+    profile = validation_profile(obj)
+    if profile not in CUDA_COMPILE:
+        raise ValueError(f"unknown validation profile {profile!r}")
+    return CUDA_COMPILE[profile]
 
 
 PORT_BRANCH = "moat-port"  # the topic branch that holds the port on each fork

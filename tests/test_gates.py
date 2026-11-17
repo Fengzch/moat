@@ -72,10 +72,12 @@ class Gates(unittest.TestCase):
     def test_hygon_profile_only_requires_wave64(self):
         r = rec({"linux-gfx936": done()}, profile="hygon-dtk")
         self.assertEqual(moatlib.required_gates(r), ("wave64",))
+        self.assertEqual(moatlib.cuda_compile_responsibility(r), "manual")
         self.assertEqual(moatlib.unsatisfied_gates(r), set())
 
     def test_default_profile_keeps_full_rocm_matrix(self):
         self.assertEqual(set(moatlib.required_gates(rec())), set(moatlib.REQUIRED_GATES))
+        self.assertEqual(moatlib.cuda_compile_responsibility(rec()), "agent")
 
     def test_unknown_profile_fails_closed(self):
         with self.assertRaisesRegex(ValueError, "unknown validation profile"):
