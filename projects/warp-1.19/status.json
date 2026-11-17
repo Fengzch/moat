@@ -6,12 +6,15 @@
   "fork_default_branch": "release-1.19",
   "priority": 0.0,
   "ext_type": "unknown",
-  "stage": "changes-requested",
+  "stage": "porting",
   "adopted_at": "2026-11-16T06:46:17Z",
-  "updated_at": "2026-11-17T01:18:09Z",
+  "updated_at": "2026-11-17T01:20:03Z",
   "head_sha": "cd7d90f81cc5f9d9e784ceabc791af8b620c976e",
   "depends_on": [],
-  "porting": null,
+  "porting": {
+    "arch": "linux-gfx936",
+    "since": "2026-11-17T01:20:03Z"
+  },
   "waivers": {},
   "platforms": {
     "linux-gfx936": {
@@ -21,7 +24,7 @@
       "failed_sha": null,
       "started_at": "2026-11-16T07:07:57Z",
       "completed_at": null,
-      "updated_at": "2026-11-17T01:18:09Z",
+      "updated_at": "2026-11-17T01:20:03Z",
       "stats": {
         "tokens_total": 0,
         "tokens_approx": true,
@@ -35,7 +38,7 @@
         "first_session_at": null,
         "last_session_at": null
       },
-      "last_agent": "reviewer"
+      "last_agent": "porter"
     }
   },
   "fork_branch": "release/1.19.0.amd0",
