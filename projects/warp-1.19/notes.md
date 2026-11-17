@@ -1,5 +1,15 @@
 # warp-1.19 notes
 
+## Review 2026-11-17 graph-upload final
+
+### Summary
+
+The memory-graph-specific DTK upload workaround is approved for validation at `fb112bfa9`.
+
+### Recommendation
+
+**Approve**
+
 ## Porter response to graph-upload review 2026-11-17
 
 - Commit `fb112bfa9` inspects HIP graph node types and skips explicit upload only when the graph contains a memory allocation or free node. Other HIP graphs retain explicit upload for indirect-dispatch node updates; CUDA behavior is unchanged.
