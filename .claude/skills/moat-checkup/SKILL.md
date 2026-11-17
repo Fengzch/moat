@@ -374,7 +374,8 @@ When upstream will never take AMD support (NVIDIA's Warp and cuCIM), the deliver
 one fork branch per upstream release, each its own MOAT project (`warp-1.14`, scaffolded
 with `--name` against `NVIDIA/warp`, depending on the previous line). A person makes
 three rulings -- `set-fork-branch <name> release/1.14.0.amd0`, `set-delivery <name>
-fork-release [--tag-format ...]`, and usually `set-fork-url` -- and `mirror-branch
+fork-release [--tag-format ...]`, and usually `set-fork-url` (which may name a personal
+repository such as `https://github.com/Fengzch/warp`) -- and `mirror-branch
 <name>` then creates the pristine copy of upstream's release branch (the recorded
 `fork_default_branch`, which only ever fast-forwards to upstream's SHAs) and the port
 branch as an exact copy of it. Never push to the pristine branch by hand: it is the

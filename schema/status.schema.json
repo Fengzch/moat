@@ -78,6 +78,44 @@
         "type": "string"
       }
     },
+    "validation_profile": {
+      "enum": [
+        "amd-rocm",
+        "hygon-dtk"
+      ]
+    },
+    "validation_profile_ruling": {
+      "type": "object",
+      "required": [
+        "profile",
+        "by",
+        "at"
+      ],
+      "properties": {
+        "profile": {
+          "enum": [
+            "amd-rocm",
+            "hygon-dtk"
+          ]
+        },
+        "previous": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "by": {
+          "type": "string",
+          "minLength": 1
+        },
+        "at": {
+          "type": "string"
+        },
+        "reason": {
+          "type": "string"
+        }
+      }
+    },
     "on_hold": {
       "type": "boolean"
     },

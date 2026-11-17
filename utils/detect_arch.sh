@@ -1,15 +1,16 @@
 #!/usr/bin/env bash
 # Copyright Advanced Micro Devices, Inc.
 # SPDX-License-Identifier: MIT
-# Detect this host's AMD GPU arch. Emits KEY=VALUE lines (GFX_ARCH, GFX_TRIPLE,
-# PLATFORM) to stdout for `eval`. Exits nonzero if no AMD GPU. Never hardcodes
-# the arch; arch varies per container/host.
+# Detect this host's HIP GPU arch. Emits KEY=VALUE lines (GFX_ARCH, GFX_TRIPLE,
+# PLATFORM) to stdout for `eval`. Works with supported AMD ROCm and Hygon DTK
+# environments that provide the standard HIP discovery tools. Never hardcodes the
+# arch; arch varies per container/host.
 #
 # OS comes from `uname` -- Git Bash, MSYS and Cygwin all identify themselves, so
 # a Windows host needs no configuration to be recognized as one. WSL reports
 # Linux, which is correct: it runs the Linux ROCm stack. MOAT_OS overrides.
 #
-# Linux: rocm_agent_enumerator / rocminfo.
+# Linux: rocm_agent_enumerator / rocminfo (also supplied by Hygon DTK).
 # Windows: hipInfo, falling back to amdgpu-arch. Both are searched on PATH and
 #   then under HIP_PATH/ROCM_PATH/ROCM_HOME, an active venv's pip-packaged SDK,
 #   beside any reachable hipcc, and the standard installer roots. MOAT_HIPINFO
@@ -117,14 +118,15 @@ if [ "$os" = "windows" ]; then
   fi
   if [ -z "$tool" ]; then
     echo "detect_arch: no hipInfo or amdgpu-arch found on PATH, under" >&2
-    echo "  HIP_PATH/ROCM_PATH/ROCM_HOME, in an active venv's ROCm SDK, or in" >&2
+    echo "  HIP_PATH/ROCM_PATH/ROCM_HOME (ROCM_PATH may point to Hygon DTK)," >&2
+    echo "  in an active venv's HIP SDK, or in" >&2
     echo "  the standard install roots. Point MOAT_HIPINFO at hipInfo.exe --" >&2
     echo "  record it in ${_local_env} to make it stick on this host." >&2
     exit 1
   fi
   arch=$("$tool" 2>/dev/null | grep -oE 'gfx[0-9a-f]+' | grep -v '^gfx000$' | head -1)
   if [ -z "$arch" ]; then
-    echo "detect_arch: $tool reported no AMD GPU (no visible device?)" >&2
+    echo "detect_arch: $tool reported no HIP GPU (no visible device?)" >&2
     exit 1
   fi
 else
@@ -138,7 +140,7 @@ else
     arch=$(rocminfo 2>/dev/null | grep -oE 'gfx[0-9a-f]+' | grep -v '^gfx000$' | sort -u | head -1)
   fi
   if [ -z "$arch" ]; then
-    echo "detect_arch: no AMD GPU found (rocm_agent_enumerator/rocminfo)" >&2
+    echo "detect_arch: no HIP GPU found (rocm_agent_enumerator/rocminfo)" >&2
     exit 1
   fi
   distinct=$(rocm_agent_enumerator 2>/dev/null | grep -oE '^gfx[0-9a-f]+' | grep -v '^gfx000$' | sort -u | wc -l)

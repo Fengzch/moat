@@ -218,18 +218,18 @@ def render_table(projects):
     # its own line rather than in the middle of a paragraph.
     gates = list(moatlib.REQUIRED_GATES)
     legend = "\n".join([
-        "**Coverage is proven per gate, not per machine.** A gate is met once *any* AMD GPU",
+        "**Coverage is proven per gate, not per machine.** A gate is met once *any* supported HIP GPU",
         "with that property has run the project's real test suite. Which specific card did it",
         "is recorded in each project's status file.",
         "",
         "| gate | what it covers |",
         "|---|---|",
-        "| `wave64` | data-center cards -- Instinct MI200/MI300 class (CDNA), 64 threads per wavefront |",
+        "| `wave64` | 64-thread targets -- Instinct MI200/MI300 class (CDNA), Hygon gfx936/gfx938 |",
         "| `wave32` | desktop and workstation cards -- Radeon RX / PRO (RDNA), 32 threads per wavefront |",
         "| `windows` | the port builds and runs on Windows, not only Linux |",
         "",
-        "A wavefront is AMD's analogue of an NVIDIA warp, which is always 32 threads. Code that",
-        "silently assumes 32 is the single most common way a CUDA port breaks on AMD, so the two",
+        "A wavefront is the HIP platform's analogue of an NVIDIA warp, which is always 32 threads. Code that",
+        "silently assumes 32 is a common way a CUDA port breaks across HIP targets, so the two",
         "widths are proven separately rather than assumed to follow from each other.",
         "",
         "| cell | meaning | | outcome | meaning |",

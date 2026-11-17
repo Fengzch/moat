@@ -1,6 +1,8 @@
 # Coverage gates, and how a platform's gates are derived from its name.
 #
-# A platform is `<os>-<gfx>` -- one architecture on one operating system. Platforms
+# A platform is `<os>-<gfx>` -- one architecture on one operating system. It does not
+# encode GPU vendor or toolchain; AMD ROCm and Hygon DTK hosts can share an architecture
+# ID while their validation evidence remains distinct in project notes. Platforms
 # are NOT enumerated here, deliberately: whatever GPU a host reports is a platform,
 # and the gates it satisfies follow from its name. A machine carrying a GPU nobody
 # has used before works with no change to this file, and no host is more or less
@@ -16,6 +18,16 @@
 
 [gates]
 required = ["wave64", "wave32", "windows"]
+waivable = ["windows", "wave64"]
+
+# Validation profiles scope a project's portability claim. The default remains
+# the full AMD ROCm matrix. A Hygon DTK port targets Hygon's wave64 Linux stack,
+# so wave32 and Windows evidence would test a different vendor/platform claim.
+# A person records the non-default profile per project with
+# `moatlib.py set-validation-profile`; agents never infer it from the current host.
+[profiles]
+amd-rocm = ["wave64", "wave32", "windows"]
+hygon-dtk = ["wave64"]
 
 # Two gates may be waived. Every waiver needs MAINTAINER approval recorded in
 # status.json; agents may only suggest one, and an unapproved suggestion BLOCKS rather
@@ -37,8 +49,6 @@ required = ["wave64", "wave32", "windows"]
 # compute is real evidence worth having -- prefer it to a waiver. The bar is that the
 # GPU work under test cannot be reached without a graphics context. If a headless subset
 # exists, validate the subset and scope the claim; do not waive.
-waivable = ["windows", "wave64"]
-
 # Linux is deliberately not a gate. wave64 is only satisfiable on Linux (CDNA is
 # Linux-only), so proving wave64 proves Linux. There is likewise no wave64-Windows
 # platform: the empty quadrant is hardware reality, not an oversight.
@@ -49,7 +59,7 @@ waivable = ["windows", "wave64"]
 # so an unrecognised family is an ERROR and not a guess. Adding a family is one line
 # here and nothing else.
 [wave]
-wave64 = ["gfx8", "gfx9"]                 # GCN, CDNA
+wave64 = ["gfx8", "gfx9"]                 # GCN, CDNA, Hygon gfx936/gfx938
 wave32 = ["gfx10", "gfx11", "gfx12"]      # RDNA
 
 # Platforms whose hardware is not available right now. This is the one place a

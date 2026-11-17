@@ -8,10 +8,12 @@ HEAD = "a" * 40
 OLD = "b" * 40
 
 
-def rec(platforms=None, waivers=None, head=HEAD):
+def rec(platforms=None, waivers=None, head=HEAD, profile=None):
     out = {"name": "proj", "platforms": platforms or {}, "waivers": waivers or {}}
     if head:
         out["head_sha"] = head
+    if profile:
+        out["validation_profile"] = profile
     return out
 
 
@@ -66,6 +68,18 @@ class Gates(unittest.TestCase):
     def test_full_coverage_at_head(self):
         r = rec({"linux-gfx90a": done(), "windows-gfx1151": done()})
         self.assertEqual(moatlib.unsatisfied_gates(r), set())
+
+    def test_hygon_profile_only_requires_wave64(self):
+        r = rec({"linux-gfx936": done()}, profile="hygon-dtk")
+        self.assertEqual(moatlib.required_gates(r), ("wave64",))
+        self.assertEqual(moatlib.unsatisfied_gates(r), set())
+
+    def test_default_profile_keeps_full_rocm_matrix(self):
+        self.assertEqual(set(moatlib.required_gates(rec())), set(moatlib.REQUIRED_GATES))
+
+    def test_unknown_profile_fails_closed(self):
+        with self.assertRaisesRegex(ValueError, "unknown validation profile"):
+            moatlib.unsatisfied_gates(rec(profile="unknown"))
 
     def test_one_windows_platform_carries_two_gates(self):
         r = rec({"windows-gfx1151": done()})

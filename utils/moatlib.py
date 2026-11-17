@@ -5,7 +5,7 @@
 gating + regression guard, validated status.json writes, and the single
 git-sync write path. Also a small CLI used by orient.sh and the agents.
 
-status.json is the source of truth. The three AMD targets share one fork branch,
+status.json is the source of truth. HIP GPU targets share one fork branch,
 so any HEAD advance re-validates the platforms that already passed (see
 advance_head). State transitions are validated; illegal jumps raise."""
 
@@ -54,11 +54,19 @@ def _load_arches():
     with open(TOOLS_ROOT / "config" / "arches.toml", "rb") as f:
         cfg = tomllib.load(f)
     waves = {fam: gate for gate, fams in cfg["wave"].items() for fam in fams}
-    return (waves, cfg["gates"]["required"], set(cfg["gates"].get("waivable", [])),
+    required = cfg["gates"]["required"]
+    profiles = cfg.get("profiles") or {"amd-rocm": required}
+    if profiles.get("amd-rocm") != required:
+        raise ValueError("config/arches.toml: profiles.amd-rocm must match gates.required")
+    unknown = {gate for gates in profiles.values() for gate in gates} - set(required)
+    if unknown:
+        raise ValueError(f"config/arches.toml: validation profiles name unknown gates: {sorted(unknown)}")
+    return (waves, required, profiles, set(cfg["gates"].get("waivable", [])),
             set((cfg.get("offline") or {}).get("platforms", [])))
 
 
-WAVE_BY_FAMILY, REQUIRED_GATES, WAIVABLE_GATES, OFFLINE_PLATFORMS = _load_arches()
+WAVE_BY_FAMILY, REQUIRED_GATES, VALIDATION_PROFILES, WAIVABLE_GATES, OFFLINE_PLATFORMS = _load_arches()
+DEFAULT_VALIDATION_PROFILE = "amd-rocm"
 
 # A platform is an architecture on an operating system. Any host that reports a GPU
 # has one, so this validates the FORM rather than checking membership of a list --
@@ -112,6 +120,19 @@ def platform_problem(platform):
 def validations(obj):
     """Per-arch validation records -- status.json's `platforms` map."""
     return obj.get("platforms") or {}
+
+
+def validation_profile(obj):
+    """The human-selected portability claim; old records retain AMD ROCm defaults."""
+    return (obj or {}).get("validation_profile") or DEFAULT_VALIDATION_PROFILE
+
+
+def required_gates(obj):
+    """Coverage gates owed by this project's recorded validation profile."""
+    profile = validation_profile(obj)
+    if profile not in VALIDATION_PROFILES:
+        raise ValueError(f"unknown validation profile {profile!r}")
+    return tuple(VALIDATION_PROFILES[profile])
 
 
 PORT_BRANCH = "moat-port"  # the topic branch that holds the port on each fork
@@ -2025,6 +2046,38 @@ def set_no_upstream(name, evidence, by, note=None, clear=False):
     return obj
 
 
+def set_validation_profile(name, profile, by, reason=None):
+    """Record a person's ruling on the vendor/platform portability claim.
+
+    Profiles are coverage policy, not a host property: a Hygon machine does not
+    silently narrow an AMD ROCm project, and an agent cannot choose a smaller
+    matrix merely because other hardware is unavailable.
+    """
+    if profile not in VALIDATION_PROFILES:
+        raise ValueError(f"{profile!r} is not a validation profile; choose one of "
+                         f"{', '.join(sorted(VALIDATION_PROFILES))}")
+    if not by:
+        raise ValueError("set-validation-profile requires --by; this is a person's ruling")
+    obj, _where = project_record(name)
+    if obj is None:
+        raise FileNotFoundError(str(status_path(name)))
+    ok, why = record_writable_here(name)
+    if not ok:
+        raise ValueError(why)
+    previous = validation_profile(obj)
+    obj["validation_profile"] = profile
+    obj["validation_profile_ruling"] = {
+        "profile": profile,
+        "previous": previous,
+        "by": by,
+        "at": now_iso(),
+    }
+    if reason:
+        obj["validation_profile_ruling"]["reason"] = reason
+    save_record(name, obj, f"{name}: validation profile {previous} -> {profile} by {by}")
+    return obj
+
+
 def set_fork_url(name, url, by, reason=None):
     """Record a person's ruling that the port lives in a repository other than the
     organization fork that intake assumes. cupy is the origin case: AMD already keeps
@@ -3896,7 +3949,7 @@ def gate_satisfied(obj, gate):
 
 
 def unsatisfied_gates(obj):
-    return {g for g in REQUIRED_GATES if not gate_satisfied(obj, g)}
+    return {g for g in required_gates(obj) if not gate_satisfied(obj, g)}
 
 
 def settled(obj):
@@ -5391,7 +5444,7 @@ def _gate_blockers(name, obj):
     blocking, nonviable = [], []
     waivers = obj.get("waivers") or {}
 
-    for gate in REQUIRED_GATES:
+    for gate in required_gates(obj):
         archs = [a for a in vals if gate in gates_for(a)]
         w = waivers.get(gate)
         # Satisfied by evidence at the current head, or by an approved waiver. One
@@ -5808,6 +5861,14 @@ def main(argv=None):
                             "fork; the port branch must already exist there")
     s.add_argument("name")
     s.add_argument("url")
+    s.add_argument("--by", help="who ruled it; required, never defaulted")
+    s.add_argument("--reason")
+
+    s = sub.add_parser("set-validation-profile",
+                       help="record a person's ruling on the required vendor/platform "
+                            "coverage matrix (amd-rocm or hygon-dtk)")
+    s.add_argument("name")
+    s.add_argument("profile", choices=sorted(VALIDATION_PROFILES))
     s.add_argument("--by", help="who ruled it; required, never defaulted")
     s.add_argument("--reason")
 
@@ -6330,6 +6391,14 @@ def main(argv=None):
         obj = set_fork_url(args.name, args.url, args.by, reason=args.reason)
         print(f"{args.name}: fork is now {obj['fork_url']} "
               f"(was {obj['fork_url_ruling']['previous']})")
+    elif args.cmd == "set-validation-profile":
+        if not args.by:
+            print("set-validation-profile: --by is required -- this records a "
+                  "person's portability-scope ruling", file=sys.stderr)
+            return 2
+        obj = set_validation_profile(args.name, args.profile, args.by, reason=args.reason)
+        print(f"{args.name}: validation profile -> {args.profile}; required gates: "
+              f"{', '.join(required_gates(obj))}")
     elif args.cmd == "set-base-branch":
         if not args.by:
             print("set-base-branch: --by is required -- this records a person's "

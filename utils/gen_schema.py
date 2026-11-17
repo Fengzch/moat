@@ -59,6 +59,18 @@ def build():
             "head_sha": {"type": ["string", "null"],
                          "description": "current fork branch HEAD"},
             "depends_on": {"type": "array", "items": {"type": "string"}},
+            "validation_profile": {"enum": sorted(m.VALIDATION_PROFILES)},
+            "validation_profile_ruling": {
+                "type": "object",
+                "required": ["profile", "by", "at"],
+                "properties": {
+                    "profile": {"enum": sorted(m.VALIDATION_PROFILES)},
+                    "previous": {"type": ["string", "null"]},
+                    "by": {"type": "string", "minLength": 1},
+                    "at": {"type": "string"},
+                    "reason": {"type": "string"},
+                },
+            },
             "on_hold": {"type": "boolean"},
             "on_hold_reason": {"type": ["string", "null"]},
             # Fork-write lock. Absent/null means no arch is writing to the fork, so

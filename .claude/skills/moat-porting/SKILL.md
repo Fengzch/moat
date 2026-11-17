@@ -71,8 +71,11 @@ reads only `notes.md`. An archive merges by union like `notes.md` (`.gitattribut
 
 ## Gates, fork commits and carry-forward (extends `validation.md`)
 
-- Coverage is the required gates in `config/arches.toml` (currently `wave64`, `wave32`,
-  `windows`). A platform is `<os>-<gfx>`; its gates follow from its name. An unknown
+- Coverage is the project's validation profile in `config/arches.toml`. `amd-rocm`
+  requires `wave64`, `wave32`, and `windows`; `hygon-dtk` requires only Hygon's Linux
+  wave64 target. A person records a non-default profile with `set-validation-profile`;
+  an agent never infers it from its host or uses it as a substitute for an AMD ROCm
+  claim. A platform is `<os>-<gfx>`; its gates follow from its name. An unknown
   architecture family is refused until its wavefront width is added under `[wave]`.
   Records made against a platform no longer in service still satisfy gates; a platform
   under `[offline]` owes no revalidation while its gates are satisfied.
