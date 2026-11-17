@@ -1,5 +1,15 @@
 # warp-1.19 notes
 
+## Review 2026-11-17 - surface option follow-up
+
+### Summary
+
+The HIP device diagnostic declaration and the associated Hygon surface accounting are approved for validation at `21af4f05c`.
+
+### Recommendation
+
+**Approve**
+
 ## Surface follow-up 2026-11-17 - Hygon DTK Linux gfx936
 
 - Maintainer scope ruling: Windows and NVIDIA MathDx are excluded from the Hygon DTK Linux gfx936 delivery. CUDA-only examples, linkage modes, and their tests belong to the maintainer's manual CUDA regression check. No wheel or release was published.

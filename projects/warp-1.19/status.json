@@ -6,15 +6,12 @@
   "fork_default_branch": "release-1.19",
   "priority": 0.0,
   "ext_type": "unknown",
-  "stage": "reviewing",
+  "stage": "review-passed",
   "adopted_at": "2026-11-16T06:46:17Z",
-  "updated_at": "2026-11-17T03:17:29Z",
+  "updated_at": "2026-11-17T03:18:16Z",
   "head_sha": "21af4f05cf1d26ce0e0b5344fe4dd33d4407caaa",
   "depends_on": [],
-  "porting": {
-    "arch": "linux-gfx936",
-    "since": "2026-11-17T03:17:29Z"
-  },
+  "porting": null,
   "waivers": {},
   "platforms": {
     "linux-gfx936": {
@@ -24,7 +21,7 @@
       "failed_sha": "077e82c5f20d40b892be5e199ed01de8db79c1ec",
       "started_at": "2026-11-16T07:07:57Z",
       "completed_at": "2026-11-17T02:16:39Z",
-      "updated_at": "2026-11-17T03:17:29Z",
+      "updated_at": "2026-11-17T03:18:16Z",
       "stats": {
         "tokens_total": 0,
         "tokens_approx": true,
@@ -82,8 +79,8 @@
   },
   "porting_released": {
     "arch": "linux-gfx936",
-    "since": "2026-11-17T03:02:41Z",
-    "at": "2026-11-17T03:16:25Z"
+    "since": "2026-11-17T03:17:29Z",
+    "at": "2026-11-17T03:18:16Z"
   },
   "validation_profile": "hygon-dtk",
   "validation_profile_ruling": {
