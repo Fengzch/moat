@@ -8,9 +8,9 @@
 - `python3 -m build --wheel --no-isolation` produced `warp_lang-1.19.0+rocm.0-py3-none-manylinux_2_28_x86_64.whl`. It was installed without source-tree imports into `/tmp/warp-final.1wj71b/venv`; `warp.__version__` and native `get_warp_version()` both returned `1.19.0+rocm.0`.
 - Installed-wheel real-GPU results on `cuda:0`: all 16 `*topo_alloc*cuda_0` graph tests passed under serial fallback; `test_graph_single_kernel_cuda_0` passed through the ordinary explicit-upload path; `test_texture1d_1channel_cuda_0` passed after a clean JIT compile. Total focused GPU result: 18/18 passed.
 - Installed-wheel non-GPU result: `python -m unittest warp.tests.test_hip_build -v`, 7/7 passed.
-- `cuda-not-validated: this host has no nvcc, no /opt/conda CUDA environment, and no conda executable.`
+- `cuda-manual-pending: CUDA compile regression is owned by the person accepting this Hygon DTK deliverable.` The Hygon validator did not run or claim this check.
 - `python3 utils/jargon.py --port warp-1.19` passed. HIP source-build documentation is present in `README.md` and `docs/user_guide/installation.rst`.
-- No wheel or release was published. The license hold remains in force, and wave32/Windows coverage remains for their respective hosts.
+- No wheel or release was published. The license hold remains in force. Wave32 and Windows are outside the recorded `hygon-dtk` validation profile.
 
 ## Review 2026-11-17 graph-upload final
 
