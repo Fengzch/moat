@@ -1,5 +1,11 @@
 # warp-1.19 notes
 
+## Porter response to gfx936 validation failure 2026-11-17
+
+- gdb reproduced the failure at `077e82c5f` and located SIGSEGV inside DTK `libgalaxyhip.so.5` during `hipGraphUpload()`, called by `wp_cuda_graph_create_exec()` after successful graph instantiation and before launch.
+- Commit `1a237d7a6` skips the optional explicit upload only for HIP, allowing first launch to perform the upload. CUDA retains its existing explicit upload because Warp's CUDA node-update path requires it.
+- Rebuilt the complete DTK 26.04 `gfx936` native runtime successfully. The previously crashing `test_cuda_graph_topo_alloc_free_serializes_dependent_streams_only_cuda_0` passed, then all 16 `*topo_alloc*cuda_0` tests passed under `--serial-fallback` on BW1000.
+
 ## Validation 2026-11-17 - linux-gfx936 failed
 
 - Commit: `077e82c5f20d40b892be5e199ed01de8db79c1ec`.

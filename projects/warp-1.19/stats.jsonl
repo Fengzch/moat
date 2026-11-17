@@ -73,3 +73,6 @@
 {"kind":"phase","ts":"2026-11-17T01:51:17Z","phase":"test","seconds":4.287,"exit":16,"cmd":"bash -lc cd /tmp/warp-validator.TTOuJA && /tmp/warp-validator.TTOuJA/venv/bin/python -m warp.tests -s autodetect -p test_graph.py -k \"*topo_alloc*cuda_0\" -j 1"}
 {"kind":"phase","ts":"2026-11-17T01:51:29Z","phase":"test","seconds":2.53,"exit":139,"cmd":"bash -lc cd /tmp/warp-validator.TTOuJA && /tmp/warp-validator.TTOuJA/venv/bin/python -m warp.tests -s autodetect -p test_graph.py -k test_cuda_graph_topo_alloc_free_serializes_dependent_streams_only_cuda_0 --serial-fallback"}
 {"kind":"session","ts":"2026-11-17T01:51:58Z","epoch":1794880318.2745485,"event":"end","platform":"linux-gfx936"}
+{"kind":"session","ts":"2026-11-17T01:52:25Z","epoch":1794880345.2530208,"event":"start","platform":"linux-gfx936"}
+{"kind":"phase","ts":"2026-11-17T02:01:35Z","phase":"compile","seconds":428.557,"exit":0,"cmd":"python3 projects/warp-1.19/src/build_lib.py --hip --rocm-path /opt/dtk --hip-arch gfx936 --no-use-libmathdx --no-standalone --no-verbose -j 2"}
+{"kind":"session","ts":"2026-11-17T02:03:13Z","epoch":1794880993.813801,"event":"end","platform":"linux-gfx936"}
