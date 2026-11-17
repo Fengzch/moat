@@ -1,5 +1,15 @@
 # warp-1.19 notes
 
+## Review 2026-11-17 follow-up
+
+### Commit Hygiene
+
+- `warp/native/builtin.h:336` adds an em dash in an upstream-visible source comment. New comments must remain ASCII. Replace it with an ASCII dash or split the sentence, then rerun the full-branch non-ASCII scan.
+
+### Recommendation
+
+**Request Changes**
+
 ## Porter response to review 2026-11-17
 
 - Replaced the HIP graph traversal stubs with the CUDA backend's breadth-first descendant, leaf, and allocation-lifetime algorithms, using HIP graph APIs and `hipGraphMemFreeNodeGetParams`. The full DTK 26.04 `gfx936` native build passed. On a BW1000, both `test_cuda_graph_topo_alloc_sequential_cuda_0` and `test_cuda_graph_topo_alloc_sequential_free_cuda_0` passed, covering allocation reachability and free ordering.
