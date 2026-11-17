@@ -58,3 +58,5 @@
 {"kind":"session","ts":"2026-11-17T01:11:22Z","epoch":1794877882.9242404,"event":"end","platform":"linux-gfx936"}
 {"kind":"session","ts":"2026-11-17T01:13:50Z","epoch":1794878030.698682,"event":"start","platform":"linux-gfx936"}
 {"kind":"session","ts":"2026-11-17T01:18:09Z","epoch":1794878289.080879,"event":"end","platform":"linux-gfx936"}
+{"kind":"session","ts":"2026-11-17T01:20:08Z","epoch":1794878408.1534896,"event":"start","platform":"linux-gfx936"}
+{"kind":"phase","ts":"2026-11-17T01:29:44Z","phase":"compile","seconds":424.63,"exit":0,"cmd":"python3 projects/warp-1.19/src/build_lib.py --hip --rocm-path /opt/dtk --hip-arch gfx936 --no-use-libmathdx --no-standalone --no-verbose -j 2"}

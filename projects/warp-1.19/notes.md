@@ -1,5 +1,16 @@
 # warp-1.19 notes
 
+## Porter response to review 2026-11-17
+
+- Replaced the HIP graph traversal stubs with the CUDA backend's breadth-first descendant, leaf, and allocation-lifetime algorithms, using HIP graph APIs and `hipGraphMemFreeNodeGetParams`. The full DTK 26.04 `gfx936` native build passed. On a BW1000, both `test_cuda_graph_topo_alloc_sequential_cuda_0` and `test_cuda_graph_topo_alloc_sequential_free_cuda_0` passed, covering allocation reachability and free ordering.
+- HIP texture creation now rejects `num_mip_levels > 1` with `Mipmapped textures are not supported by this HIP runtime`, rather than exposing DTK's incorrect explicit-LOD results. Direct `Texture1D`, `Texture2D`, and `Texture3D` constructions with two levels all raised the expected error. The supported base-level path remained intact: `test_texture1d_1channel_cuda_0` passed on BW1000.
+- HIPRTC now receives `-ffp-contract=off` for `fuse_fp=False` and `-ffp-contract=on` for `fuse_fp=True`. A scratch module was unloaded, cache-cleared, and compiled on BW1000 once per setting; both distinct module hashes compiled and launched successfully.
+- The release identity is now `1.19.0+rocm.0` in `VERSION.md`, generated native version data, and Python configuration. `python3 -m build --wheel --no-isolation` produced `warp_lang-1.19.0+rocm.0-py3-none-manylinux_2_28_x86_64.whl`. Installing that wheel into a temporary virtual environment and importing it outside the source tree reported package and native versions of `1.19.0+rocm.0`.
+- The bfloat16 bit-copy helpers use `__builtin_memcpy` only during HIP device compilation and retain standard `memcpy` for host compilers, including MSVC. A Windows/CUDA compiler is unavailable on this Hygon host, so the required Windows no-regression compile remains for the Windows gate.
+- Texture dimension validation now selects `maxTexture1D`, `maxTexture2D`, or `maxTexture3D` according to dimensionality. Mipmapped limits are not used because HIP mipmapped creation is explicitly rejected.
+- `python3 -m unittest warp.tests.test_hip_build -v`: 7/7 passed. `python3 -m unittest warp.tests.test_version -v`: 7/10 passed; the three failures are exclusively the expected `warp-clang` version checks because this `--no-standalone` DTK build has no Warp LLVM library and reports it as `unknown`. Package and native runtime version matching passed independently through the installed wheel.
+- This is Hygon DTK 26.04 / BW1000 `gfx936` evidence, not AMD ROCm evidence. The wheel was built only for local validation and was not published. The existing license hold remains in force.
+
 ## Review 2026-11-17
 
 ### Summary
