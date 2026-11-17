@@ -6,12 +6,15 @@
   "fork_default_branch": "release-1.19",
   "priority": 0.0,
   "ext_type": "unknown",
-  "stage": "review-passed",
+  "stage": "porting",
   "adopted_at": "2026-11-16T06:46:17Z",
-  "updated_at": "2026-11-17T01:51:58Z",
+  "updated_at": "2026-11-17T01:52:25Z",
   "head_sha": "077e82c5f20d40b892be5e199ed01de8db79c1ec",
   "depends_on": [],
-  "porting": null,
+  "porting": {
+    "arch": "linux-gfx936",
+    "since": "2026-11-17T01:52:25Z"
+  },
   "waivers": {},
   "platforms": {
     "linux-gfx936": {
@@ -21,7 +24,7 @@
       "failed_sha": "077e82c5f20d40b892be5e199ed01de8db79c1ec",
       "started_at": "2026-11-16T07:07:57Z",
       "completed_at": null,
-      "updated_at": "2026-11-17T01:51:58Z",
+      "updated_at": "2026-11-17T01:52:25Z",
       "stats": {
         "tokens_total": 0,
         "tokens_approx": true,
