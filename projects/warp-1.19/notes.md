@@ -1,5 +1,15 @@
 # warp-1.19 notes
 
+## Review 2026-11-17 graph-upload follow-up
+
+### Port Correctness
+
+- `warp/native/warp.cu:3669` skips explicit upload for every HIP graph, but the surrounding implementation requires upload before indirect-dispatch node updates. Scope the DTK workaround to graphs containing memory allocation/free nodes, which are the topology that crashes `hipGraphUpload()`, and retain explicit upload for other HIP graphs.
+
+### Recommendation
+
+**Request Changes**
+
 ## Porter response to gfx936 validation failure 2026-11-17
 
 - gdb reproduced the failure at `077e82c5f` and located SIGSEGV inside DTK `libgalaxyhip.so.5` during `hipGraphUpload()`, called by `wp_cuda_graph_create_exec()` after successful graph instantiation and before launch.
