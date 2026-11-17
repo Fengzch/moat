@@ -8,7 +8,7 @@
   "ext_type": "unknown",
   "stage": "review-passed",
   "adopted_at": "2026-11-16T06:46:17Z",
-  "updated_at": "2026-11-17T03:18:16Z",
+  "updated_at": "2026-11-17T03:48:30Z",
   "head_sha": "21af4f05cf1d26ce0e0b5344fe4dd33d4407caaa",
   "depends_on": [],
   "porting": null,
@@ -17,11 +17,11 @@
     "linux-gfx936": {
       "blocked": false,
       "blocked_reason": null,
-      "validated_sha": "fb112bfa98190aa5249d453e4dc1d9ffefb444f0",
+      "validated_sha": "21af4f05cf1d26ce0e0b5344fe4dd33d4407caaa",
       "failed_sha": "077e82c5f20d40b892be5e199ed01de8db79c1ec",
       "started_at": "2026-11-16T07:07:57Z",
-      "completed_at": "2026-11-17T02:16:39Z",
-      "updated_at": "2026-11-17T03:18:16Z",
+      "completed_at": "2026-11-17T03:48:30Z",
+      "updated_at": "2026-11-17T03:48:30Z",
       "stats": {
         "tokens_total": 0,
         "tokens_approx": true,
@@ -35,7 +35,7 @@
         "first_session_at": null,
         "last_session_at": null
       },
-      "last_agent": "reviewer",
+      "last_agent": "validator",
       "state": "completed"
     }
   },

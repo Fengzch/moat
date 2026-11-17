@@ -1,5 +1,17 @@
 # warp-1.19 notes
 
+## Surface completion 2026-11-17 - LLVM and CPU APIC
+
+- Retrieved the upstream Warp LLVM SDK asset `clang+llvm-warp@22.1.8-linux-x86_64-gcc14-cxxabi0-warp.1.tar.xz` from release `llvm-sdk-22.1.8-warp.1`. Its SHA-256 was `ef200e86229a515438875193d48305e70811a126feed4fa908f89c8d6ee7e59a`, exactly matching `deps/llvm-deps.packman.xml`; DTK Clang 17 was not substituted for the matching SDK.
+- Standalone Hygon build passed in 666.566 seconds: `python3 projects/warp-1.19/src/build_lib.py --hip --rocm-path /opt/dtk --hip-arch gfx936 --no-use-libmathdx --standalone --llvm-path /test/moat/agent_space/wt-warp-1.19/projects/warp-1.19/src/_build/host-deps/llvm-project/release-linux-x86_64 --no-verbose -j 2`. It produced `warp.so` and `warp-clang.so`; runtime reporting showed Warp package/core and warp-clang `1.19.0+rocm.0`, with warp-clang using LLVM 22.1.8.
+- The source from `tools/llvm/test_package/test_package.cpp` compiled against the checksum-verified SDK's headers and static archives with GCC 11.4, `_GLIBCXX_USE_CXX11_ABI=0`, and `-fabi-version=13`. The resulting consumer passed: `clang clang version 22.1.8: JIT add(2, 3) == 5`, covering target initialization, the NVPTX backend, ORC JIT compilation, and execution.
+- CPU APIC capture passed with `PYTHONPATH=projects/warp-1.19/src python3 warp/examples/cpp/03_apic_visualization_cpu/capture_wave.py --output warp/examples/cpp/03_apic_visualization_cpu/generated/wave_sim`; it compiled the CPU module through warp-clang and saved the graph plus companion object modules.
+- The `03_apic_visualization_cpu` CMake target then configured and built against the local `warp.so` and `warp-clang.so`. Host prerequisites added for this local build were `libxrandr-dev`, `libxinerama-dev`, `libxcursor-dev`, `libxi-dev`, and Python `jinja2`. `ctest --test-dir /tmp/warp-apic-cpu.DYQmPv --output-on-failure` passed `apic_visualization_cpu_smoke` 1/1, including 10 headless replay iterations.
+- Installed-wheel revalidation at `21af4f05cf1d26ce0e0b5344fe4dd33d4407caaa` passed package/native version checks (`1.19.0+rocm.0`), `warp.tests.test_hip_build` 7/7, all 16 `*topo_alloc*cuda_0` graph tests, `test_graph_single_kernel_cuda_0`, and `test_texture1d_1channel_cuda_0` on BW1000 gfx936. The wheel remained local and was not published.
+- Surface accounting now has no owed entries. Windows and NVIDIA MathDx remain scoped out by the maintainer's Hygon DTK Linux ruling. CUDA-only examples and linkage tests remain assigned to the maintainer's manual CUDA regression.
+- `cuda-manual-pending: CUDA compile regression is owned by the person accepting this Hygon DTK deliverable.`
+- No wheel, GitHub Release, review PR, or upstream PR was published.
+
 ## Review 2026-11-17 - surface option follow-up
 
 ### Summary

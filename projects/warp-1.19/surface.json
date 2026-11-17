@@ -193,6 +193,22 @@
       "reason": "Hygon DTK 26.04 gfx936 native and wheel builds passed; the installed wheel passed 18 focused GPU tests and 7 HIP build tests at fb112bfa9, and the option follow-up built and ran at 21af4f05c."
     },
     {
+      "id": "library:warp-clang",
+      "reason": "A standalone Hygon DTK 26.04 gfx936 build linked warp-clang against the checksum-verified Warp LLVM 22.1.8 SDK at 21af4f05c; runtime version reporting returned warp-clang 1.19.0+rocm.0 (LLVM 22.1.8)."
+    },
+    {
+      "id": "library:glad",
+      "reason": "The CPU APIC visualization CMake build generated and linked the GLAD OpenGL loader successfully before its headless smoke test passed."
+    },
+    {
+      "id": "example:03_apic_visualization_cpu",
+      "reason": "The CPU graph was captured with warp-clang, then the C++ APIC visualization executable built successfully against warp.so and warp-clang.so on Linux."
+    },
+    {
+      "id": "option:WARP_BUILD_CLANG",
+      "reason": "The default standalone build with WARP_BUILD_CLANG enabled completed using the matching Warp LLVM 22.1.8 SDK and produced warp-clang.so."
+    },
+    {
       "id": "option:WARP_ENABLE_CUDA",
       "reason": "The release build's GPU backend was enabled through build_lib.py --hip and exercised on BW1000 gfx936; WP_ENABLE_CUDA=1 and WP_ENABLE_HIP=1 compiled the full device source set."
     },
@@ -203,6 +219,14 @@
     {
       "id": "option:WARP_VERIFY_FP",
       "reason": "A DTK gfx936 build with --verify-fp completed at 21af4f05c after adding the HIP device printf declaration, reported Verify FP: True through the native ABI, and passed test_graph_single_kernel_cuda_0."
+    },
+    {
+      "id": "test:apic_visualization_cpu_smoke",
+      "reason": "CTest ran the headless CPU APIC replay for 10 iterations and passed 1/1 after building the C++ example."
+    },
+    {
+      "id": "test:test_package",
+      "reason": "The LLVM SDK consumer source compiled and linked against the checksum-verified SDK, found the NVPTX backend, and executed its ORC JIT check: clang 22.1.8 JIT add(2, 3) == 5."
     }
   ],
   "scoped_out": [
@@ -231,10 +255,6 @@
       "reason": "Standalone EXCLUDE_FROM_ALL cuBQL instantiation targets are not included by Warp's top-level release build; the embedded cuBQL path in library:warp is covered."
     },
     {
-      "id": "library:glad",
-      "reason": "Fetched OpenGL loader used only by the CUDA and CPU visualization examples; it is not part of the Hygon Warp release library."
-    },
-    {
       "id": "option:WARP_USE_DYNAMIC_CUDA",
       "reason": "NVIDIA CUDA runtime/compiler linkage mode; outside Hygon DTK and assigned to the maintainer's manual CUDA regression check."
     },
@@ -259,27 +279,6 @@
       "reason": "Windows import-library test; Windows is outside the maintainer-approved Hygon DTK Linux gfx936 scope."
     }
   ],
-  "owed": [
-    {
-      "id": "example:03_apic_visualization_cpu",
-      "reason": "Requires warp-clang for CPU APIC replay; the current Hygon release build uses --no-standalone because the matching Warp LLVM distribution is unavailable."
-    },
-    {
-      "id": "library:warp-clang",
-      "reason": "The matching Warp LLVM library has not been built or obtained on this host; DTK Clang 17 is not an established substitute for Warp's LLVM 22 ABI."
-    },
-    {
-      "id": "option:WARP_BUILD_CLANG",
-      "reason": "Needs the matching Warp LLVM distribution and a successful warp-clang build before this default option can be covered."
-    },
-    {
-      "id": "test:apic_visualization_cpu_smoke",
-      "reason": "Depends on the still-owed warp-clang library and CPU APIC example."
-    },
-    {
-      "id": "test:test_package",
-      "reason": "LLVM SDK JIT package test depends on the still-owed warp-clang/LLVM deliverable."
-    }
-  ],
+  "owed": [],
   "removed_from_floor": []
 }
