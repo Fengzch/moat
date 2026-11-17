@@ -1,4 +1,4 @@
-# Warp 1.19 ROCm Release Plan
+# Warp 1.19 HIP Port and DTK Validation Plan
 
 ## Project
 
@@ -12,7 +12,7 @@ An authoritative AMD port exists at `https://github.com/AMD-Ecosystem/warp`, an 
 
 This is not a clean-room port. Start from the NVIDIA 1.19 pristine tree required by the release-line contract, then carry forward the AMD-owned HIP implementation and the current 1.18 update in reviewable increments. Do not merge the AMD integration branch wholesale without first reconciling its base: GitHub reports it diverged from NVIDIA `release-1.19` (57 commits ahead, 781 behind; merge base `d8f5e52d02990e21e2df4b67298423d7b98598fb`). Coordinate with AMD Warp maintainers on the intended 1.19 update source and preserve 1.19-only upstream changes.
 
-The upstream 1.19 build is a Python/setuptools package with a custom native build driver (`build_lib.py`) and CMake for local native builds; it is not a PyTorch extension. The AMD implementation is also custom (`build_lib.py` detects ROCm and invokes HIP compilation), so use that working integration as the strategy template rather than a mechanical whole-tree hipify. Preserve the CUDA build path and retain AMD-specific code behind compiler/platform guards.
+The upstream 1.19 build is a Python/setuptools package with a custom native build driver (`build_lib.py`) and CMake for local native builds; it is not a PyTorch extension. The AMD implementation is also custom (`build_lib.py` detects ROCm and invokes HIP compilation), so use that working integration as the strategy template rather than a mechanical whole-tree hipify. Preserve the CUDA build path and keep vendor-specific behavior behind compiler/platform guards. The first target host uses Hygon DTK 26.04 at `/opt/dtk`, which supplies HIP tools and reports `gfx936`; this is not the AMD ROCm SDK. Record which vendor toolchain each build and test uses, and do not assume libraries or compiler behavior are interchangeable.
 
 ## Build Classification and Strategy
 
@@ -34,7 +34,8 @@ The upstream 1.19 build is a Python/setuptools package with a custom native buil
 
 - HIPRTC differs from NVRTC in supported headers, options, diagnostics, and architecture naming. Runtime-compiled source/header staging and cache invalidation need direct tests.
 - Wave width varies (wave64 on CDNA, wave32 on RDNA). Tile layout, shuffle, mask, reduction, and shared-memory sizing must be valid for both.
-- AMD's current official port documents limited GPU/ROCm coverage and has active 1.18 update work. The selected linux-gfx936 host is a wave32 RDNA4 target not proven by the 1.13 release line; it must not be treated as a substitute for gfx942 wave64 or Windows validation.
+- The Hygon `gfx936` target has a 64-lane wavefront and therefore provides wave64 evidence. Tile layout, shuffle, mask, reduction, and shared-memory sizing must be valid for both wave64 and wave32; a separate RDNA wave32 host is still required.
+- AMD's current official port documents limited GPU/ROCm coverage and has active 1.18 update work. The selected linux-gfx936 host is a Hygon wave64 target not proven by the 1.13 release line; it does not substitute for wave32 or Windows validation, nor establish AMD ROCm compatibility.
 - CUDA graphs, stream capture, allocator/mempool interop, texture behavior, and multiple-device tests are likely platform-sensitive. Preserve the fixes from the AMD implementation and validate their 1.19 equivalents.
 - Tile MathDx operations do not have a blanket one-for-one ROCm library replacement. Validate every operation; keep correct portable fallback paths where possible and record deferred scope explicitly.
 - `scan-nvidia` found proprietary-license text in upstream `README.md`, `licenses/cuda-LICENSE.txt`, and `licenses/libmathdx-LICENSE.txt`. The README explicitly says libmathdx is automatically fetched for source builds and statically included in prebuilt packages, under NVIDIA's Software License Agreement. A human/legal ruling is required on redistribution, removal of NVIDIA license text, and whether the release may omit MathDx. Do not publish a wheel or GitHub release while this is unresolved.
@@ -52,22 +53,22 @@ The upstream 1.19 build is a Python/setuptools package with a custom native buil
 
 ## Build Commands
 
-Use the AMD fork's build interface as the starting recipe; confirm the exact options against the 1.19-adapted build driver before implementation. On the current Linux host, build for its detected wave32 architecture (`gfx936`):
+Use the AMD fork's build interface as the starting recipe; confirm the exact options against the 1.19-adapted build driver before implementation. On the current Linux Hygon DTK host, target its detected wave64 architecture (`gfx936`) and point build discovery to DTK:
 
 ```bash
 cd projects/warp-1.19/src
-ROCM_PATH=/opt/rocm uv run build_lib.py --hip-arch gfx936 --no-use-libmathdx
+python3 build_lib.py --hip --rocm-path /opt/dtk --hip-arch gfx936 --no-use-libmathdx --no-standalone
 ```
 
-The release build must also produce and install a wheel from a clean environment after the native runtime build. For other hosts, substitute their actual `CMAKE_HIP_ARCHITECTURES`/HIP architecture (e.g. a supported CDNA gfx9 target) and use the matching ROCm SDK. Do not claim the recipe is final until the 1.19-adapted build script accepts it and the wheel is tested.
+The release build must also produce and install a wheel from a clean environment after the native runtime build. For AMD validation hosts, substitute their actual HIP architecture and use the matching ROCm SDK. Do not claim the recipe is final until the 1.19-adapted build script accepts it and the installed package is tested. A public wheel or GitHub Release remains prohibited until the license ruling in Open Questions is recorded.
 
 ## Test Plan
 
 - Establish the upstream CPU-only baseline and preserve all non-GPU tests.
-- Focused HIP tests: `uv run --extra dev -m warp.tests -s autodetect -p '*graph*.py'`, plus focused `*tile*`, `*stream*`, `*mesh*`, `*sparse*`, `*texture*`, `*deterministic*`, and runtime/JIT modules after confirming the suite's platform filters.
-- Full supported suite: `uv run --extra dev -m warp.tests`; run it after building the native runtime, on each required platform. Record exact counts, skips and failures.
+- Focused HIP tests: `python3 -m warp.tests -s autodetect -p '*graph*.py'`, plus focused `*tile*`, `*stream*`, `*mesh*`, `*sparse*`, `*texture*`, `*deterministic*`, and runtime/JIT modules after confirming the suite's platform filters.
+- Full supported suite: `python3 -m warp.tests`; run it after building the native runtime, on each required platform. Record exact counts, skips and failures.
 - Test HIPRTC dynamically generated kernels and clean-cache rebuilds; test Python wheel installation outside the source checkout to verify the packaged library and JIT headers are used.
-- Required hardware evidence: one wave32 AMD GPU (current host gfx936 can provide the initial run), one wave64 CDNA GPU, and a Windows ROCm/HIP platform if Warp's 1.19 toolchain supports it. Each validator runs on real hardware; `MOAT_PLATFORM` is not validation.
+- Required hardware evidence: one wave64 target (Hygon DTK `gfx936` is the first target), one wave32 RDNA target, and a Windows HIP platform if Warp's 1.19 toolchain supports it. Each validator runs on real hardware; `MOAT_PLATFORM` is not validation.
 - CUDA no-regression: compile the CUDA path with the pinned toolkit and architecture where the host supports it; do not infer CUDA behavior from HIP builds.
 - Document unimplemented MathDx-only behavior as deferred/owed, never as silently covered.
 
@@ -76,4 +77,4 @@ The release build must also produce and install a wheel from a clean environment
 1. Obtain a human/legal ruling on the CUDA and libmathdx license material in the resulting source/wheel and whether MathDx must be excluded, replaced or separately licensed.
 2. Coordinate with AMD-Ecosystem Warp maintainers on whether to use the open 1.18 update PR's source as the HIP baseline for 1.19, and how to avoid conflicting with their active release work.
 3. Confirm which public API/features are required in the 1.19 release and whether MathDx-only tile functions may be explicitly deferred.
-4. Confirm the supported ROCm versions and exact Windows ROCm status for Warp 1.19 before assigning gate completion.
+4. Confirm the supported Hygon DTK and AMD ROCm versions, and exact Windows HIP support, before assigning gate completion.

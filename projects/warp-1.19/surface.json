@@ -189,6 +189,95 @@
   ],
   "covered": [],
   "scoped_out": [],
-  "owed": [],
+  "owed": [
+    {
+      "id": "example:00_cubin_launch",
+      "reason": "Pending Warp 1.19 HIP implementation and validation on Hygon DTK; no coverage claimed."
+    },
+    {
+      "id": "example:01_source_include",
+      "reason": "Pending Warp 1.19 HIP implementation and validation on Hygon DTK; no coverage claimed."
+    },
+    {
+      "id": "example:02_apic_visualization",
+      "reason": "Pending Warp 1.19 HIP implementation and validation on Hygon DTK; no coverage claimed."
+    },
+    {
+      "id": "example:03_apic_visualization_cpu",
+      "reason": "Pending Warp 1.19 HIP implementation and validation on Hygon DTK; no coverage claimed."
+    },
+    {
+      "id": "executable:windows_import_library_smoke",
+      "reason": "Pending Warp 1.19 HIP implementation and validation on Hygon DTK; no coverage claimed."
+    },
+    {
+      "id": "library:cuBQL_${device}_${T}${D}",
+      "reason": "Pending Warp 1.19 HIP implementation and validation on Hygon DTK; no coverage claimed."
+    },
+    {
+      "id": "library:cuBQL_${device}_${T}${D}_static",
+      "reason": "Pending Warp 1.19 HIP implementation and validation on Hygon DTK; no coverage claimed."
+    },
+    {
+      "id": "library:glad",
+      "reason": "Pending Warp 1.19 HIP implementation and validation on Hygon DTK; no coverage claimed."
+    },
+    {
+      "id": "library:warp",
+      "reason": "Pending Warp 1.19 HIP implementation and validation on Hygon DTK; no coverage claimed."
+    },
+    {
+      "id": "library:warp-clang",
+      "reason": "Pending Warp 1.19 HIP implementation and validation on Hygon DTK; no coverage claimed."
+    },
+    {
+      "id": "option:WARP_BUILD_CLANG",
+      "reason": "Pending Warp 1.19 HIP implementation and validation on Hygon DTK; no coverage claimed."
+    },
+    {
+      "id": "option:WARP_ENABLE_CUDA",
+      "reason": "Pending Warp 1.19 HIP implementation and validation on Hygon DTK; no coverage claimed."
+    },
+    {
+      "id": "option:WARP_FAST_MATH",
+      "reason": "Pending Warp 1.19 HIP implementation and validation on Hygon DTK; no coverage claimed."
+    },
+    {
+      "id": "option:WARP_USE_DYNAMIC_CUDA",
+      "reason": "Pending Warp 1.19 HIP implementation and validation on Hygon DTK; no coverage claimed."
+    },
+    {
+      "id": "option:WARP_USE_LIBMATHDX",
+      "reason": "Pending Warp 1.19 HIP implementation and validation on Hygon DTK; no coverage claimed."
+    },
+    {
+      "id": "option:WARP_VERIFY_FP",
+      "reason": "Pending Warp 1.19 HIP implementation and validation on Hygon DTK; no coverage claimed."
+    },
+    {
+      "id": "test:apic_visualization_cpu_smoke",
+      "reason": "Pending Warp 1.19 HIP implementation and validation on Hygon DTK; no coverage claimed."
+    },
+    {
+      "id": "test:apic_visualization_smoke",
+      "reason": "Pending Warp 1.19 HIP implementation and validation on Hygon DTK; no coverage claimed."
+    },
+    {
+      "id": "test:cubin_launch_test",
+      "reason": "Pending Warp 1.19 HIP implementation and validation on Hygon DTK; no coverage claimed."
+    },
+    {
+      "id": "test:source_include_test",
+      "reason": "Pending Warp 1.19 HIP implementation and validation on Hygon DTK; no coverage claimed."
+    },
+    {
+      "id": "test:test_package",
+      "reason": "Pending Warp 1.19 HIP implementation and validation on Hygon DTK; no coverage claimed."
+    },
+    {
+      "id": "test:windows_import_library_smoke",
+      "reason": "Pending Warp 1.19 HIP implementation and validation on Hygon DTK; no coverage claimed."
+    }
+  ],
   "removed_from_floor": []
 }
