@@ -8,7 +8,7 @@
   "ext_type": "unknown",
   "stage": "review-passed",
   "adopted_at": "2026-11-16T06:46:17Z",
-  "updated_at": "2026-11-17T02:14:09Z",
+  "updated_at": "2026-11-17T02:16:39Z",
   "head_sha": "fb112bfa98190aa5249d453e4dc1d9ffefb444f0",
   "depends_on": [],
   "porting": null,
@@ -17,11 +17,11 @@
     "linux-gfx936": {
       "blocked": false,
       "blocked_reason": null,
-      "validated_sha": null,
+      "validated_sha": "fb112bfa98190aa5249d453e4dc1d9ffefb444f0",
       "failed_sha": "077e82c5f20d40b892be5e199ed01de8db79c1ec",
       "started_at": "2026-11-16T07:07:57Z",
-      "completed_at": null,
-      "updated_at": "2026-11-17T02:14:09Z",
+      "completed_at": "2026-11-17T02:16:39Z",
+      "updated_at": "2026-11-17T02:16:39Z",
       "stats": {
         "tokens_total": 0,
         "tokens_approx": true,
@@ -36,7 +36,7 @@
         "last_session_at": null
       },
       "last_agent": "reviewer",
-      "state": "validation-failed"
+      "state": "completed"
     }
   },
   "fork_branch": "release/1.19.0.amd0",

@@ -1,5 +1,17 @@
 # warp-1.19 notes
 
+## Validation 2026-11-17 - linux-gfx936 completed
+
+- Validated commit: `fb112bfa98190aa5249d453e4dc1d9ffefb444f0`; local HEAD and `origin/release/1.19.0.amd0` matched, and the tracked source tree was clean.
+- Platform: Hygon BW1000 64G, `gfx936` wave64, Hygon DTK 26.04 at `/opt/dtk`. This evidence applies to Hygon DTK, not AMD ROCm.
+- Full native build passed with `python3 projects/warp-1.19/src/build_lib.py --hip --rocm-path /opt/dtk --hip-arch gfx936 --no-use-libmathdx --no-standalone --no-verbose -j 2`.
+- `python3 -m build --wheel --no-isolation` produced `warp_lang-1.19.0+rocm.0-py3-none-manylinux_2_28_x86_64.whl`. It was installed without source-tree imports into `/tmp/warp-final.1wj71b/venv`; `warp.__version__` and native `get_warp_version()` both returned `1.19.0+rocm.0`.
+- Installed-wheel real-GPU results on `cuda:0`: all 16 `*topo_alloc*cuda_0` graph tests passed under serial fallback; `test_graph_single_kernel_cuda_0` passed through the ordinary explicit-upload path; `test_texture1d_1channel_cuda_0` passed after a clean JIT compile. Total focused GPU result: 18/18 passed.
+- Installed-wheel non-GPU result: `python -m unittest warp.tests.test_hip_build -v`, 7/7 passed.
+- `cuda-not-validated: this host has no nvcc, no /opt/conda CUDA environment, and no conda executable.`
+- `python3 utils/jargon.py --port warp-1.19` passed. HIP source-build documentation is present in `README.md` and `docs/user_guide/installation.rst`.
+- No wheel or release was published. The license hold remains in force, and wave32/Windows coverage remains for their respective hosts.
+
 ## Review 2026-11-17 graph-upload final
 
 ### Summary
