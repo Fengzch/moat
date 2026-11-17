@@ -8,7 +8,7 @@
   "ext_type": "unknown",
   "stage": "review-passed",
   "adopted_at": "2026-11-16T06:46:17Z",
-  "updated_at": "2026-11-17T02:16:39Z",
+  "updated_at": "2026-11-17T02:34:15Z",
   "head_sha": "fb112bfa98190aa5249d453e4dc1d9ffefb444f0",
   "depends_on": [],
   "porting": null,
@@ -81,5 +81,13 @@
     "arch": "linux-gfx936",
     "since": "2026-11-17T02:13:44Z",
     "at": "2026-11-17T02:14:09Z"
+  },
+  "validation_profile": "hygon-dtk",
+  "validation_profile_ruling": {
+    "profile": "hygon-dtk",
+    "previous": "amd-rocm",
+    "by": "Fengzch",
+    "at": "2026-11-17T02:34:15Z",
+    "reason": "This release targets Hygon DTK; wave32 and Windows are outside the requested portability claim"
   }
 }
