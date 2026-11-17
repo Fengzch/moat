@@ -8,7 +8,7 @@
   "ext_type": "unknown",
   "stage": "review-passed",
   "adopted_at": "2026-11-16T06:46:17Z",
-  "updated_at": "2026-11-17T01:41:28Z",
+  "updated_at": "2026-11-17T01:51:58Z",
   "head_sha": "077e82c5f20d40b892be5e199ed01de8db79c1ec",
   "depends_on": [],
   "porting": null,
@@ -18,10 +18,10 @@
       "blocked": false,
       "blocked_reason": null,
       "validated_sha": null,
-      "failed_sha": null,
+      "failed_sha": "077e82c5f20d40b892be5e199ed01de8db79c1ec",
       "started_at": "2026-11-16T07:07:57Z",
       "completed_at": null,
-      "updated_at": "2026-11-17T01:41:28Z",
+      "updated_at": "2026-11-17T01:51:58Z",
       "stats": {
         "tokens_total": 0,
         "tokens_approx": true,
@@ -35,7 +35,8 @@
         "first_session_at": null,
         "last_session_at": null
       },
-      "last_agent": "reviewer"
+      "last_agent": "reviewer",
+      "state": "validation-failed"
     }
   },
   "fork_branch": "release/1.19.0.amd0",

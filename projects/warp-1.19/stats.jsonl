@@ -67,3 +67,9 @@
 {"kind":"session","ts":"2026-11-17T01:40:49Z","epoch":1794879649.66932,"event":"end","platform":"linux-gfx936"}
 {"kind":"session","ts":"2026-11-17T01:41:04Z","epoch":1794879664.1485407,"event":"start","platform":"linux-gfx936"}
 {"kind":"session","ts":"2026-11-17T01:41:28Z","epoch":1794879688.9218245,"event":"end","platform":"linux-gfx936"}
+{"kind":"session","ts":"2026-11-17T01:42:04Z","epoch":1794879724.6042397,"event":"start","platform":"linux-gfx936"}
+{"kind":"phase","ts":"2026-11-17T01:49:13Z","phase":"compile","seconds":418.708,"exit":0,"cmd":"python3 projects/warp-1.19/src/build_lib.py --hip --rocm-path /opt/dtk --hip-arch gfx936 --no-use-libmathdx --no-standalone --no-verbose -j 2"}
+{"kind":"phase","ts":"2026-11-17T01:50:31Z","phase":"test","seconds":38.305,"exit":0,"cmd":"bash -lc cd /tmp/warp-validator.TTOuJA && /tmp/warp-validator.TTOuJA/venv/bin/python -m warp.tests -s autodetect -p test_graph.py -k test_cuda_graph_topo_alloc_sequential_cuda_0 -j 1 && /tmp/warp-validator.TTOuJA/venv/bin/python -m warp.tests -s autodetect -p test_graph.py -k test_cuda_graph_topo_alloc_sequential_free_cuda_0 -j 1 && /tmp/warp-validator.TTOuJA/venv/bin/python -m warp.tests -s autodetect -p test_texture.py -k test_texture1d_1channel_cuda_0 -j 1"}
+{"kind":"phase","ts":"2026-11-17T01:51:17Z","phase":"test","seconds":4.287,"exit":16,"cmd":"bash -lc cd /tmp/warp-validator.TTOuJA && /tmp/warp-validator.TTOuJA/venv/bin/python -m warp.tests -s autodetect -p test_graph.py -k \"*topo_alloc*cuda_0\" -j 1"}
+{"kind":"phase","ts":"2026-11-17T01:51:29Z","phase":"test","seconds":2.53,"exit":139,"cmd":"bash -lc cd /tmp/warp-validator.TTOuJA && /tmp/warp-validator.TTOuJA/venv/bin/python -m warp.tests -s autodetect -p test_graph.py -k test_cuda_graph_topo_alloc_free_serializes_dependent_streams_only_cuda_0 --serial-fallback"}
+{"kind":"session","ts":"2026-11-17T01:51:58Z","epoch":1794880318.2745485,"event":"end","platform":"linux-gfx936"}

@@ -1,5 +1,16 @@
 # warp-1.19 notes
 
+## Validation 2026-11-17 - linux-gfx936 failed
+
+- Commit: `077e82c5f20d40b892be5e199ed01de8db79c1ec`.
+- Platform: Hygon BW1000 64G, `gfx936`, Hygon DTK 26.04 at `/opt/dtk`. This is Hygon DTK evidence, not AMD ROCm evidence.
+- Native build passed: `python3 projects/warp-1.19/src/build_lib.py --hip --rocm-path /opt/dtk --hip-arch gfx936 --no-use-libmathdx --no-standalone --no-verbose -j 2`. Warp package/core both reported `1.19.0+rocm.0`.
+- Release wheel build passed: `python3 -m build --wheel --no-isolation` produced `warp_lang-1.19.0+rocm.0-py3-none-manylinux_2_28_x86_64.whl`, which installed into `/tmp/warp-validator.TTOuJA/venv` and loaded outside the source tree.
+- Installed-wheel GPU passes on `cuda:0`: `test_cuda_graph_topo_alloc_sequential_cuda_0`, `test_cuda_graph_topo_alloc_sequential_free_cuda_0`, and `test_texture1d_1channel_cuda_0` (3/3 focused tests passed).
+- Expanded installed-wheel graph validation failed. `python -m warp.tests -s autodetect -p test_graph.py -k '*topo_alloc*cuda_0' -j 1` passed the first three fork/free tests, then broke the worker while running `test_cuda_graph_topo_alloc_free_serializes_dependent_streams_only_cuda_0`. A different-hypothesis serial reproduction, `python -m warp.tests -s autodetect -p test_graph.py -k test_cuda_graph_topo_alloc_free_serializes_dependent_streams_only_cuda_0 --serial-fallback`, terminated with SIGSEGV (exit 139). This is a real GPU/runtime failure at the validated commit, not a multiprocessing-only failure.
+- `cuda-not-validated: this host has no nvcc, no /opt/conda CUDA environment, and no conda executable.`
+- The source checkout was clean before validation. The local wheel was not published. The license hold remains in force.
+
 ## Review 2026-11-17 final
 
 ### Summary
