@@ -6,15 +6,12 @@
   "fork_default_branch": "release-1.19",
   "priority": 0.0,
   "ext_type": "unknown",
-  "stage": "reviewing",
+  "stage": "changes-requested",
   "adopted_at": "2026-11-16T06:46:17Z",
-  "updated_at": "2026-11-17T01:13:45Z",
+  "updated_at": "2026-11-17T01:18:09Z",
   "head_sha": "cd7d90f81cc5f9d9e784ceabc791af8b620c976e",
   "depends_on": [],
-  "porting": {
-    "arch": "linux-gfx936",
-    "since": "2026-11-17T01:13:45Z"
-  },
+  "porting": null,
   "waivers": {},
   "platforms": {
     "linux-gfx936": {
@@ -24,7 +21,7 @@
       "failed_sha": null,
       "started_at": "2026-11-16T07:07:57Z",
       "completed_at": null,
-      "updated_at": "2026-11-17T01:13:45Z",
+      "updated_at": "2026-11-17T01:18:09Z",
       "stats": {
         "tokens_total": 0,
         "tokens_approx": true,
@@ -81,7 +78,7 @@
   },
   "porting_released": {
     "arch": "linux-gfx936",
-    "since": "2026-11-16T07:41:58Z",
-    "at": "2026-11-17T01:10:07Z"
+    "since": "2026-11-17T01:13:45Z",
+    "at": "2026-11-17T01:18:09Z"
   }
 }

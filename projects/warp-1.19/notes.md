@@ -1,5 +1,30 @@
 # warp-1.19 notes
 
+## Review 2026-11-17
+
+### Summary
+
+The branch adds a Hygon DTK HIP build, runtime/JIT compatibility, and texture support, but six correctness, compatibility, and release-line issues require changes before validation.
+
+### Port Correctness
+
+- `warp/native/cuda_util_hip.inl:82-95` implements `get_dependent_leaf_nodes()`, `graph_node_depends_on()`, and `graph_alloc_query()` as unconditional error stubs. These are active runtime paths: `warp/native/warp.cu:954-972` needs the descendant leaf set to attach a graph free node, and the public graph topology queries return the stub result. On BW1000/gfx936, `PYTHONPATH=. python3 -m warp.tests -s autodetect -p test_graph.py -k test_cuda_graph_topo_alloc_sequential_cuda_0 -j 1` fails because `wp_cuda_graph_alloc_query()` returns `-1`. Port the existing CUDA graph traversal implementations using the mapped HIP graph APIs, add the HIP mem-free-node parameter query needed by `graph_alloc_query()`, and run the graph topology and capture-time free tests.
+- `warp/native/texture.cpp:252-262` creates and exposes HIP mipmapped textures even though `warp/native/texture.h:859-880` routes every nonnegative LOD through `tex1DLod`, `tex2DLod`, or `tex3DLod`. The recorded independent DTK 26.04/gfx936 probe shows all three explicit-LOD functions return zero for correctly populated mip levels, so callers receive silent wrong results rather than an unsupported error. Reject HIP `num_mip_levels > 1` at creation until a correct 1D/2D/3D fallback, including gradients, is implemented and validated.
+- `warp/native/warp.cu:4794-4821` constructs HIPRTC options without honoring the public `fuse_fp` argument; the shared option builder that emits `--fmad=true/false` is skipped for HIP at `warp/native/warp.cu:4845-4849`. Consequently `fuse_fp=False` cannot disable contraction on HIP and can change numerical results. Add the HIPRTC equivalent (`-ffp-contract=off` when false and the intended enabled mode when true) and test both generated option sets or a contraction-sensitive kernel.
+
+### Build System
+
+- `VERSION.md:1` and `warp/config.py:86` still identify the package and native runtime as upstream `1.19.0`, and the build has no release-revision mechanism. This release line is required to produce `1.19.0+rocm.0`; publishing an indistinguishable `1.19.0` wheel would collide with upstream identity. Add a single version source that drives Python metadata and native version checks, produce the `+rocm.0` wheel, and test installation/import from a clean environment.
+
+### Backward Compatibility
+
+- `warp/native/builtin.h:330-353` unconditionally replaces portable `memcpy` with `__builtin_memcpy` in `CUDA_CALLABLE` helpers. These helpers are compiled by the normal CPU/CUDA Windows host compiler, and MSVC does not provide the Clang/GCC builtin. Keep `memcpy` on the host/MSVC path and use the builtin only where HIP device compilation requires it, then compile the CUDA/CPU path with the supported Windows toolchain.
+- `warp/native/texture.cpp:226-235` validates every texture dimension against `hipDeviceProp_t.maxTexture3D`. HIP exposes distinct `maxTexture1D`, `maxTexture2D`, `maxTexture3D`, `maxTexture1DMipmap`, and `maxTexture2DMipmap` limits; they are not portable substitutes for one another. The current check can reject legal 1D/2D textures on devices whose limits exceed the 3D width. Select the limit family by `ndim` and mipmapped status, and add boundary tests around each reported limit.
+
+### Recommendation
+
+**Request Changes**
+
 ## HIP texture bring-up 2026-11-16
 
 - Native HIP build now succeeds with DTK 26.04 for `gfx936` after the runtime, HIPRTC, texture API, and device-code compatibility changes in the port worktree. Build command: `PATH=/root/.local/bin:$PATH bash utils/timeit.sh warp-1.19 compile -- python3 projects/warp-1.19/src/build_lib.py --hip --rocm-path /opt/dtk --hip-arch gfx936 --no-use-libmathdx --no-standalone --no-verbose -j 2`. Output: `warp/bin/warp.so`. This is a Hygon DTK build, not AMD ROCm validation.
