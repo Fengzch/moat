@@ -55,3 +55,4 @@
 {"kind":"phase","ts":"2026-11-17T00:58:27Z","phase":"test","seconds":35.378,"exit":0,"cmd":"env PYTHONPATH=/test/moat/agent_space/wt-warp-1.19/projects/warp-1.19/src python3 -m warp.tests -s autodetect -p test_texture.py -k test_texture_sample_grad_1d_address_modes_cuda_0 -j 1"}
 {"kind":"phase","ts":"2026-11-17T00:59:10Z","phase":"test","seconds":35.572,"exit":0,"cmd":"env PYTHONPATH=/test/moat/agent_space/wt-warp-1.19/projects/warp-1.19/src python3 -m warp.tests -s autodetect -p test_texture.py -k test_texture_sample_grad_1d_multichannel_cuda_0 -j 1"}
 {"kind":"phase","ts":"2026-11-17T01:06:29Z","phase":"compile","seconds":428.748,"exit":0,"cmd":"python3 projects/warp-1.19/src/build_lib.py --hip --rocm-path /opt/dtk --hip-arch gfx936 --no-use-libmathdx --no-standalone --no-verbose -j 2"}
+{"kind":"session","ts":"2026-11-17T01:11:22Z","epoch":1794877882.9242404,"event":"end","platform":"linux-gfx936"}
