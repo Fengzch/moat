@@ -1,5 +1,10 @@
 # warp-1.19 notes
 
+## Porter response to graph-upload review 2026-11-17
+
+- Commit `fb112bfa9` inspects HIP graph node types and skips explicit upload only when the graph contains a memory allocation or free node. Other HIP graphs retain explicit upload for indirect-dispatch node updates; CUDA behavior is unchanged.
+- The full DTK native build passed. All 16 `*topo_alloc*cuda_0` tests passed, and `test_graph_single_kernel_cuda_0` passed through the ordinary explicit-upload path on BW1000.
+
 ## Review 2026-11-17 graph-upload follow-up
 
 ### Port Correctness
