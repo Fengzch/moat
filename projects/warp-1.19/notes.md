@@ -1,5 +1,15 @@
 # warp-1.19 notes
 
+## Review 2026-11-17 final
+
+### Summary
+
+The Hygon DTK HIP runtime, graph, texture, packaging, and release-identity port is approved for validation at `077e82c5f`.
+
+### Recommendation
+
+**Approve**
+
 ## Porter response to follow-up review 2026-11-17
 
 - Replaced the non-ASCII dash in `warp/native/builtin.h` with an ASCII colon in commit `077e82c5f`. `git diff --check` and the upstream terminology scan pass. This is a source-comment-only delta, so the successful build and GPU evidence at parent `036c56538` remain behaviorally applicable; validation tooling will classify the committed delta.
